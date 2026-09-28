@@ -1,1 +1,3 @@
-import {CheckoutPage} from '@/components/checkout-page'; export default function Page(){return <CheckoutPage/>}
+import {CheckoutPage} from '@/components/checkout-page';
+export const runtime = 'edge';
+export default function Page(){return <CheckoutPage/>}

@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { z } from 'zod';
 import { products } from '@/lib/data';
-
+export const runtime = 'edge';
 const phoneSchema = z
   .string()
   .trim()

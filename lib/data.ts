@@ -15,6 +15,7 @@ export const site={
   "ink": "#211b16",
   "variant": "rustic"
 };
+export const runtime = 'edge';
 export const categories=[
   {
     "id": "bbq-platters",

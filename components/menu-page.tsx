@@ -1,50 +1,74 @@
+"use client";
 
-'use client';
-
-import Link from 'next/link';
-import { Search } from 'lucide-react';
-import { useState } from 'react';
+import Link from "next/link";
+import { Search } from "lucide-react";
+import { useEffect, useState } from "react";
+import { useSearchParams } from "next/navigation";
 
 import {
   products,
   categories,
   site,
-} from '@/lib/data';
+} from "@/lib/data";
 
 import {
   SiteHeader,
   MobileNav,
-} from './site-header';
+} from "./site-header";
 
-import { ProductCard } from './product-card';
+import { ProductCard } from "./product-card";
 
 export function MenuPage() {
-  const [q, setQ] = useState('');
-  const [cat, setCat] = useState('all');
+  const searchParams = useSearchParams();
+
+  const [q, setQ] = useState("");
+  const [cat, setCat] = useState("all");
+
+  /*
+   * Read category from URL:
+   * /menu?category=pizza
+   */
+  useEffect(() => {
+    const urlCategory = searchParams.get("category");
+
+    if (!urlCategory) {
+      setCat("all");
+      return;
+    }
+
+    const categoryExists = categories.some(
+      (category) => category.id === urlCategory
+    );
+
+    setCat(categoryExists ? urlCategory : "all");
+  }, [searchParams]);
 
   const search = q.trim().toLowerCase();
 
   const filtered = products.filter((product) => {
-    // Search filter
     const matchesSearch =
       !search ||
       product.name.toLowerCase().includes(search) ||
       product.description.toLowerCase().includes(search);
 
-    // Category filter
     const matchesCategory =
-      cat === 'all' ||
+      cat === "all" ||
       product.category === cat;
 
     return matchesSearch && matchesCategory;
   });
+
+  const clearFilters = () => {
+    setQ("");
+    setCat("all");
+  };
 
   return (
     <main>
       <SiteHeader />
 
       <div className="page-wrap">
-        {/* ================= PAGE HEADER ================= */}
+        {/* PAGE HEADER */}
         <div className="page-title">
           <span className="eyebrow">
             {site.name}
@@ -57,9 +81,9 @@ export function MenuPage() {
           </p>
         </div>
 
-        {/* ================= MENU TOOLS ================= */}
+        {/* MENU TOOLS */}
         <div className="menu-tools">
-          {/* Search */}
+          {/* SEARCH */}
           <div className="search-box">
             <Search size={20} />
 
@@ -72,12 +96,12 @@ export function MenuPage() {
             />
           </div>
 
-          {/* Categories */}
+          {/* CATEGORIES */}
           <div className="chips">
             <button
               type="button"
-              className={cat === 'all' ? 'active' : ''}
-              onClick={() => setCat('all')}
+              className={cat === "all" ? "active" : ""}
+              onClick={() => setCat("all")}
             >
               All
             </button>
@@ -88,8 +112,8 @@ export function MenuPage() {
                 key={category.id}
                 className={
                   cat === category.id
-                    ? 'active'
-                    : ''
+                    ? "active"
+                    : ""
                 }
                 onClick={() =>
                   setCat(category.id)
@@ -101,7 +125,7 @@ export function MenuPage() {
           </div>
         </div>
 
-        {/* ================= PRODUCTS ================= */}
+        {/* PRODUCTS */}
         {filtered.length > 0 ? (
           <div className="product-grid">
             {filtered.map((product) => (
@@ -115,7 +139,6 @@ export function MenuPage() {
             ))}
           </div>
         ) : (
-          /* ================= NO RESULTS ================= */
           <div className="empty-state">
             <Search size={42} />
 
@@ -125,14 +148,11 @@ export function MenuPage() {
               Try another search or choose a different category.
             </p>
 
-            {(q || cat !== 'all') && (
+            {(q || cat !== "all") && (
               <button
                 type="button"
                 className="primary-btn"
-                onClick={() => {
-                  setQ('');
-                  setCat('all');
-                }}
+                onClick={clearFilters}
               >
                 Clear filters
               </button>

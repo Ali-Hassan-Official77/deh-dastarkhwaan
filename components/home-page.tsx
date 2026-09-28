@@ -1,4 +1,3 @@
-
 "use client";
 
 import Link from "next/link";
@@ -119,7 +118,7 @@ export function HomePage() {
         <div className="category-grid">
           {categories.map((category) => (
             <Link
-              href={`/menu?category=${category.id}`}
+              href={`/menu?category=${encodeURIComponent(category.id)}`}
               key={category.id}
               className="category-card"
             >
@@ -232,7 +231,6 @@ export function HomePage() {
       {/* FOOTER */}
       <footer className="footer">
         <div className="footer-brand">
-          {/* Separate footer logo — navbar Logo component removed */}
           <Link
             href="/"
             className="footer-logo"
