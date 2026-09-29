@@ -1,5 +1,7 @@
 export type Category={id:string;name:string;icon:string;accent:string;note:string};
 export type Product={id:string;slug:string;name:string;category:string;price:number;oldPrice?:number;rating:number;reviews:number;description:string;ingredients:string[];image:string;badge?:string;calories:number;spicy?:boolean;popular?:boolean;accent?:string};
+
+export const runtime = 'edge';
 export const site={
   "id": "deh-dastarkhwan",
   "name": "Deh Dastarkhwan",
@@ -15,10 +17,9 @@ export const site={
   "ink": "#211b16",
   "variant": "rustic"
 };
-export const runtime = 'edge';
 export const categories=[
   {
-    "id": "bbq-platters",
+    "id": "bbq",
     "name": "BBQ Platters",
     "icon": "✦",
     "accent": "#e2a33a",
